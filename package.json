@@ -1,0 +1,27 @@
+{
+  "name": "mailer",
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.4",
+    "@types/node": "^24.9.1",
+    "aws-cdk": "^2.1031.0",
+    "aws-cdk-lib": "^2.220.0",
+    "nodemon": "^3.1.10",
+    "serverless": "^4.22.0",
+    "serverless-offline": "^14.4.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "dev": "nodemon",
+    "build": "tsc",
+    "serve": "serverless offline",
+    "synth": "cdk synth --quiet",
+    "deploy": "cdk deploy --require-approval never"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "serverless-http": "^4.0.0"
+  }
+}

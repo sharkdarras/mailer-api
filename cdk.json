@@ -1,0 +1,7 @@
+{
+  "app": "tsx ./src/infra/index.ts",
+  "output": "./dist/infra-outputs",
+  "watch": {
+    "include": ["./src/infra/**"]
+  }
+}
