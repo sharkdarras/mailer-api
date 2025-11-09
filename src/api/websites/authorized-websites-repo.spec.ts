@@ -1,7 +1,9 @@
 import { AuthorizedWebsitesRepo } from "./authorized-webistes-repo";
+import { AuthorizedWebsite } from "./authorized-website";
 
 export const testAuthorizedWebsitesRepo = (
-  buildRepo: () => AuthorizedWebsitesRepo
+  buildRepo: () => AuthorizedWebsitesRepo,
+  websiteThatExists: AuthorizedWebsite
 ) => {
   let repo: AuthorizedWebsitesRepo;
 
@@ -10,12 +12,8 @@ export const testAuthorizedWebsitesRepo = (
   });
 
   it("should return an authorized website by URL", async () => {
-    const website = await repo.getAuthorizedWebsite("example.com");
-    expect(website).toEqual({
-      name: "Example Company",
-      url: "example.com",
-      contactEmail: "info@example.com",
-    });
+    const website = await repo.getAuthorizedWebsite(websiteThatExists.url);
+    expect(website).toEqual(websiteThatExists);
   });
 
   it("should return null for an unknown website", async () => {
@@ -23,3 +21,5 @@ export const testAuthorizedWebsitesRepo = (
     expect(website).toBeNull();
   });
 };
+
+test("dummy test to avoid empty spec file error", () => {});

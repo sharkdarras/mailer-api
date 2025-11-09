@@ -13,11 +13,11 @@ describe("POST /send-message", () => {
   it("should return success response given valid request", async () => {
     const sendMessageRequest: SendMessageRequest = {
       sender: {
-        email: "sender@example.com",
+        email: "sender@some-domain.com",
       },
       subject: "Hello",
       text: "This is a test message.",
-      website: "https://some-website.com",
+      website: "test.com",
     };
 
     const response = await request(app)

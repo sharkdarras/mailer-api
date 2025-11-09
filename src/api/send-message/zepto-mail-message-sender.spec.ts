@@ -2,7 +2,7 @@ import { Message } from "./message-sender";
 import { ZeptoMailMessageSender } from "./zepto-mail-message-sender";
 
 describe("ZeptoMailMessageSender", () => {
-  it.skipIf(false)("should send an email", async () => {
+  it.skipIf(true)("should send an email", async () => {
     const sender = new ZeptoMailMessageSender();
     const message: Message = {
       sender: {

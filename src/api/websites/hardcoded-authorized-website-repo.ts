@@ -1,21 +1,23 @@
-import { readEnvVarOrThrow } from "../read-env-var";
 import { AuthorizedWebsite } from "./authorized-website";
 import * as fs from "fs";
 
 export class HardcodedAuthorizedWebsiteRepo {
-  private websites: AuthorizedWebsite[];
+  private readonly websitesFilePath: string;
+  private websites: AuthorizedWebsite[] = [];
 
-  constructor() {
-    const websitesFilePath = readEnvVarOrThrow(
-      "HARDCODED_WEBSITES_FILE_PATH",
-      new Error("Missing HARDCODED_WEBSITES_FILE_PATH environment variable.")
-    );
-    this.websites = JSON.parse(fs.readFileSync(websitesFilePath, "utf8"));
+  constructor(websitesFilePath: string) {
+    this.websitesFilePath = websitesFilePath;
   }
 
   public async getAuthorizedWebsite(
     url: string
   ): Promise<AuthorizedWebsite | null> {
+    if (this.websites.length === 0) await this.loadWebsitesFromFile();
+
     return this.websites.find((website) => website.url === url) || null;
+  }
+
+  private async loadWebsitesFromFile(): Promise<void> {
+    this.websites = JSON.parse(fs.readFileSync(this.websitesFilePath, "utf8"));
   }
 }

@@ -27,6 +27,7 @@
     "test": "vitest run --no-ui"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.927.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "nodemailer": "^7.0.10",

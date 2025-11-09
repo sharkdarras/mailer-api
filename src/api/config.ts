@@ -1,0 +1,4 @@
+export const {
+  AUTHORIZED_WEBSITES_S3_BUCKET_NAME,
+  HARDCODED_WEBSITES_FILE_PATH,
+} = process.env;

@@ -3,6 +3,8 @@ import { Construct } from "constructs";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as logs from "aws-cdk-lib/aws-logs";
 import * as apiGw from "aws-cdk-lib/aws-apigateway";
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as s3 from "aws-cdk-lib/aws-s3";
 import * as path from "path";
 import {
   Charset,
@@ -32,7 +34,23 @@ export class MailerStack extends cdk.Stack {
         charset: Charset.UTF8,
         forceDockerBundling: true,
       },
+      environment: {
+        ZEPTO_MAIL_API_KEY_NAME: process.env.ZEPTO_MAIL_API_KEY_NAME || "",
+        ZEPTO_MAIL_API_KEY: process.env.ZEPTO_MAIL_API_KEY || "",
+      },
     });
+
+    const authorizedWebsitesBucket = s3.Bucket.fromBucketName(
+      this,
+      "AuthorizedWebsitesS3Bucket",
+      "mailer-authorized-websites"
+    );
+    authorizedWebsitesBucket.grantRead(mailerFn);
+
+    mailerFn.addEnvironment(
+      "AUTHORIZED_WEBSITES_S3_BUCKET_NAME",
+      authorizedWebsitesBucket.bucketName
+    );
 
     const apiGwLogGroup = new logs.LogGroup(this, "ApiGatewayAccessLogs", {
       retention: logs.RetentionDays.ONE_WEEK,
