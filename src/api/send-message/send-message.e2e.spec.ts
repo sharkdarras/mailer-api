@@ -16,7 +16,7 @@ describe("POST /send-message", () => {
         email: "sender@example.com",
       },
       subject: "Hello",
-      body: "This is a test message.",
+      text: "This is a test message.",
       website: "https://some-website.com",
     };
 

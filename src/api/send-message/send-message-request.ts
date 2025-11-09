@@ -7,7 +7,7 @@ export const SendMessageRequest = z.object({
     phoneNumber: z.string().optional(),
   }),
   subject: z.string().nonempty().max(250),
-  body: z.string().nonempty().max(5000),
+  text: z.string().nonempty().max(5000),
   website: z.string().nonempty(),
 });
 export type SendMessageRequest = z.infer<typeof SendMessageRequest>;

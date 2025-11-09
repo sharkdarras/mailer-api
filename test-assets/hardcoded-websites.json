@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Example Company",
+    "url": "example.com",
+    "contactEmail": "info@example.com"
+  },
+  {
+    "name": "Another Company",
+    "url": "another.com",
+    "contactEmail": "contact@another.com"
+  }
+]

@@ -1,10 +1,16 @@
 service: mailer
 
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs22.x
   stage: dev
   region: us-east-1
+  environment:
+    ZEPTO_MAIL_API_KEY_NAME: ${env:ZEPTO_MAIL_API_KEY_NAME}
+    ZEPTO_MAIL_API_KEY: ${env:ZEPTO_MAIL_API_KEY}
+    HARDCODED_WEBSITES_FILE_PATH: ${env:HARDCODED_WEBSITES_FILE_PATH}
 
 functions:
   api:

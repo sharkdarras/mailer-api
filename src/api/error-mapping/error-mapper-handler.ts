@@ -12,6 +12,7 @@ export function errorsMapperHandler(): ErrorRequestHandler {
       mailerError = new UnexpectedError(err);
     }
 
+    console.error(err);
     res.status(mailerError.httpStatusCode).json({
       code: mailerError.code,
       message: mailerError.message,

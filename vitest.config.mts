@@ -1,4 +1,5 @@
 import { defineConfig } from "vitest/config";
+import { loadEnv } from "vite";
 
 export default defineConfig({
   test: {
@@ -11,6 +12,6 @@ export default defineConfig({
       include: ["src/**/*.ts"],
       exclude: ["src/infra/**/*.ts"],
     },
-    ui: true,
+    env: loadEnv("tests", process.cwd(), ""),
   },
 });

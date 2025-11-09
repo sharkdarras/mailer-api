@@ -2,3 +2,6 @@ node_modules
 dist
 .serverless
 infra-outputs
+.env
+.env.tests
+assets
