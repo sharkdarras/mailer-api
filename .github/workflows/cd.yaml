@@ -7,6 +7,7 @@ on:
 env:
   ZEPTO_MAIL_API_KEY_NAME: ${{ vars.ZEPTO_MAIL_API_KEY_NAME }}
   ZEPTO_MAIL_API_KEY: ${{ secrets.ZEPTO_MAIL_API_KEY }}
+  AUTHORIZED_WEBSITES_S3_BUCKET_NAME: "mailer-authorized-websites"
 
 jobs:
   deploy:
