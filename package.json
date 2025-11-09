@@ -22,7 +22,8 @@
     "serve": "serverless offline",
     "synth": "cdk synth --quiet",
     "deploy": "cdk deploy --require-approval never",
-    "test": "vitest"
+    "test-watch": "vitest",
+    "test": "vitest run --no-ui"
   },
   "dependencies": {
     "cors": "^2.8.5",

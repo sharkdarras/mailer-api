@@ -1,16 +1,12 @@
-name: Deploy
+name: Checks
 
 on:
-  push:
-    branches: [main]
+  pull_request:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    permissions:
-      id-token: write
-      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -21,14 +17,8 @@ jobs:
           node-version-file: ".nvmrc"
           cache: "npm"
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: ${{ vars.AWS_REGION }}
-          role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS_ROLE }}
-
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build
         run: npm run build
