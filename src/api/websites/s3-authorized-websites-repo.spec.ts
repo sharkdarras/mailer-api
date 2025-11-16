@@ -12,6 +12,7 @@ describe("S3AuthorizedWebsiteRepo", () => {
       name: "Test Website",
       url: "test.com",
       contactEmail: "info@test.com",
+      recaptchaSecretKey: "test-secret-key",
     }
   );
 });

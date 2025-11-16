@@ -5,7 +5,12 @@ import { validateRequest } from "../request-validation/validate-request";
 import { WebsiteNotFoundError } from "../websites/website-not-found-error";
 
 export function sendMessageHandler(rp: ResourceProvider): RequestHandler {
-  const { authorizedWebsitesRepo, messageSender, messageBodyBuilder } = rp;
+  const {
+    authorizedWebsitesRepo,
+    messageSender,
+    messageBodyBuilder,
+    antiSpamValidator,
+  } = rp;
 
   return async (req, res, next) => {
     const sendMessageRequest = validateRequest(SendMessageRequest, req.body);
@@ -17,6 +22,11 @@ export function sendMessageHandler(rp: ResourceProvider): RequestHandler {
     if (!website) {
       throw new WebsiteNotFoundError(sendMessageRequest.website);
     }
+
+    await antiSpamValidator.verifyIsNotSpam(
+      sendMessageRequest.antiSpamToken,
+      website.recaptchaSecretKey
+    );
 
     const messageBody = messageBodyBuilder.buildMessage({
       senderEmail: sendMessageRequest.sender.email,

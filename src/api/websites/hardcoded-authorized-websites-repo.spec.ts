@@ -12,6 +12,7 @@ describe("HardcodedAuthorizedWebsiteRepo", () => {
       name: "Another Company",
       url: "another.com",
       contactEmail: "contact@another.com",
+      recaptchaSecretKey: "test-secret-key",
     }
   );
 });

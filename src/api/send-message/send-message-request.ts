@@ -9,5 +9,6 @@ export const SendMessageRequest = z.object({
   subject: z.string().nonempty().max(250),
   text: z.string().nonempty().max(5000),
   website: z.string().nonempty(),
+  antiSpamToken: z.string().nonempty(),
 });
 export type SendMessageRequest = z.infer<typeof SendMessageRequest>;

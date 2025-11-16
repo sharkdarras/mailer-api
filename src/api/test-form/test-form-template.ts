@@ -1,3 +1,5 @@
+const recaptchaSiteKey = process.env.RECAPTCHA_TEST_SITE_KEY || "";
+
 export const testFormTemplate = `<!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +7,7 @@ export const testFormTemplate = `<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mailer Test Form</title>
+  <script src="https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}"></script>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -100,7 +103,7 @@ export const testFormTemplate = `<!DOCTYPE html>
 <body>
   <div class="form-container">
     <h1>Mailer Test Form</h1>
-    <form id="contactForm" method="POST" action="send-message">
+    <form id="contactForm">
       <div class="form-group">
         <label for="senderName">Sender Full Name</label>
         <input type="text" id="senderName" name="senderName" placeholder="John Doe">
@@ -140,7 +143,7 @@ export const testFormTemplate = `<!DOCTYPE html>
   <script>
     document.getElementById('contactForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      
+
       const submitBtn = document.querySelector('.submit-btn');
       const statusMessage = document.getElementById('statusMessage');
       
@@ -148,20 +151,32 @@ export const testFormTemplate = `<!DOCTYPE html>
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending...';
       statusMessage.style.display = 'none';
-      
-      // Collect form data in SendMessageRequest format
-      const formData = {
-        sender: {
-          email: document.getElementById('senderEmail').value,
-          fullName: document.getElementById('senderName').value || undefined,
-          phoneNumber: document.getElementById('senderPhone').value || undefined
-        },
-        subject: document.getElementById('subject').value,
-        text: document.getElementById('message').value,
-        website: document.getElementById('website').value
-      };
-      
+
       try {
+        // Wrap grecaptcha in a Promise to use with async/await
+        const token = await new Promise((resolve, reject) => {
+          grecaptcha.ready(function() {
+            grecaptcha.execute('${recaptchaSiteKey}', {action: 'submit'})
+              .then(resolve)
+              .catch(reject);
+          });
+        });
+        
+        // Collect form data in SendMessageRequest format
+        const formData = {
+          sender: {
+            email: document.getElementById('senderEmail').value,
+            fullName: document.getElementById('senderName').value || undefined,
+            phoneNumber: document.getElementById('senderPhone').value || undefined
+          },
+          subject: document.getElementById('subject').value,
+          text: document.getElementById('message').value,
+          website: document.getElementById('website').value,
+          antiSpamToken: token
+        };
+
+        console.log('Prepared form data:', formData);
+        
         const response = await fetch('send-message', {
           method: 'POST',
           headers: {

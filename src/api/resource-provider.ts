@@ -1,3 +1,4 @@
+import { RecaptchaAntiSpamValidator } from "./anti-spam-validation/recaptcha-anti-spam-validator";
 import {
   AUTHORIZED_WEBSITES_S3_BUCKET_NAME,
   HARDCODED_WEBSITES_FILE_PATH,
@@ -33,5 +34,9 @@ export class ResourceProvider {
 
   public get messageBodyBuilder(): MessageBodyBuilder {
     return new MessageBodyBuilder();
+  }
+
+  public get antiSpamValidator() {
+    return new RecaptchaAntiSpamValidator();
   }
 }

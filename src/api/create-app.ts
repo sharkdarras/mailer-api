@@ -6,9 +6,10 @@ import { sendMessageHandler } from "./send-message/send-message-handler";
 import { healthHandler } from "./health/health-handler";
 import { testFormHandler } from "./test-form/test-form-handler";
 
-export async function createApp(): Promise<Express> {
+export async function createApp(
+  rp: ResourceProvider = new ResourceProvider()
+): Promise<Express> {
   const app: Express = express();
-  const rp = new ResourceProvider();
 
   app.use(cors());
   app.use(express.json());
