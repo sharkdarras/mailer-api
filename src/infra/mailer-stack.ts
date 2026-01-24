@@ -3,7 +3,6 @@ import { Construct } from "constructs";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as logs from "aws-cdk-lib/aws-logs";
 import * as apiGw from "aws-cdk-lib/aws-apigateway";
-import * as iam from "aws-cdk-lib/aws-iam";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as path from "path";
 import {
@@ -27,6 +26,7 @@ export class MailerStack extends cdk.Stack {
       architecture: lambda.Architecture.X86_64,
       loggingFormat: lambda.LoggingFormat.JSON,
       systemLogLevelV2: lambda.SystemLogLevel.INFO,
+      timeout: cdk.Duration.seconds(30),
       entry: path.join(__dirname, "../api/lambda.ts"),
       bundling: {
         target: "es2023",
@@ -43,13 +43,13 @@ export class MailerStack extends cdk.Stack {
     const authorizedWebsitesBucket = s3.Bucket.fromBucketName(
       this,
       "AuthorizedWebsitesS3Bucket",
-      "mailer-authorized-websites"
+      "mailer-authorized-websites",
     );
     authorizedWebsitesBucket.grantRead(mailerFn);
 
     mailerFn.addEnvironment(
       "AUTHORIZED_WEBSITES_S3_BUCKET_NAME",
-      authorizedWebsitesBucket.bucketName
+      authorizedWebsitesBucket.bucketName,
     );
 
     const apiGwLogGroup = new logs.LogGroup(this, "ApiGatewayAccessLogs", {
